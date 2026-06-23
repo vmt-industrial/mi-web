@@ -1,0 +1,932 @@
+
+        /* PALETA INDUSTRIAL "CYBER-TECH" */
+        :root {
+            --bg-dark: #0f141d;
+            --bg-grid-line: rgba(0, 229, 255, 0.04);
+            --bg-card: rgba(18, 22, 31, 0.85);
+            --blue-electric: #0052FF;
+            --blue-cyan: #00E5FF;
+            --text-main: #ffffff;
+            --text-muted: #8fa0dd;
+            --border-color: #1f2633;
+            --bg-header: rgba(15,20,29,0,75);
+        }
+
+        /* RESET GENERAL Y FONDO CUADRICULADO */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            background-image: 
+                linear-gradient(var(--bg-grid-line) 1px, transparent 1px),
+                linear-gradient(90deg, var(--bg-grid-line) 1px, transparent 1px);
+            background-size: 40px 40px;
+            color: var(--text-main);
+            overflow-x: hidden;
+        }
+
+        /* HEADER */
+       /* Importar la tipografía Montserrat desde Google Fonts */
+@import url('https://googleapis.com');
+
+header {
+    background-color: var(--bg-header);
+    color: var(--text-main);
+    border-bottom: 1px solid var(--border-color);
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(0, 229, 255, 0.1);
+    padding: 1.2rem 0;
+}
+
+.nav-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 1.2rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Estilos aplicados al contenedor del logo */
+.logo {
+    display: flex;
+    flex-direction: column;
+    font-family: 'Montserrat', sans-serif; /* Aplica la fuente del logo */
+    text-transform: uppercase;
+    line-height: 0.9; /* Junta las palabras verticalmente como el logo original */
+}
+
+/* Estilo para las letras principales superiores */
+.logo .vmt-text {
+    font-size: 2.2rem;
+    font-weight: 800; /* Letra extra gruesa */
+    color: rgba(248, 248, 248, 0.392); /* Naranja idéntico al de tu imagen */
+    letter-spacing: -1px; /* Junta un poco las letras */
+}
+
+/* Estilo para la palabra inferior */
+.logo .ind-text {
+    font-size: 0.85rem;
+    font-weight: 400; /* Letra fina y delgada */
+    color: #b0b0b8; /* Gris oscuro texturizado */
+    letter-spacing: 2px; /* Separa las letras para que ocupen el ancho de VMV */
+    margin-top: 2px;
+}
+
+
+
+.hero h1{
+    text-transform: uppercase;
+}
+
+        /* HERO SECCIÓN */
+    .hero {
+    position: relative;
+    width: 100%;
+    min-height: 80vh; /* Le da una buena altura para que luzca el fondo */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 4rem 2rem;
+    font-family: sans-serif;
+    
+    /* EL TRUCO PARA LA IMAGEN FIJA QUE SE MUEVE AL BAJAR */
+    background-image: url("pruebas.jpeg"); /* Poné acá el nombre exacto de tu imagen */
+    background-size: cover;          /* Obliga a la foto a cubrir todo el recuadro sin deformarse */
+    background-position: center;     /* Mantiene el centro de la foto siempre visible */
+    background-attachment: fixed;    /* Fija la imagen atrás creando el efecto de movimiento pro */
+}
+
+/* CAPA OSCURA PROTECTORA: Para que tus textos sigan leyéndose impecables sobre la foto */
+.hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(10, 14, 22, 0.75); /* Oscurece la foto un 75% */
+    z-index: 1;
+}
+
+/* ESTO ASEGURA QUE TU TÍTULO Y PÁRRAFO QUEDEN POR ENCIMA DE LA CAPA OSCURA */
+.hero h1, .hero p {
+    position: relative;
+    z-index: 2;
+}
+
+        /* ======================================================= */
+        /* ESTRUCTURA DEL CARRUSEL CONTINUO HORIZONTAL (CINTA)   */
+        /* ======================================================= */
+        .contenedor-cinta {
+            width: 100%;
+            padding: 3rem 0;
+            background: rgba(0, 0, 0, 0.1);
+            overflow: hidden; /* Esconde lo que se sale de la pantalla */
+            position: relative;
+        }
+
+        /* Degradados oscuros a los costados para dar efecto de "desvanecido" en los bordes */
+        .contenedor-cinta::before,
+        .contenedor-cinta::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            width: 150px;
+            height: 100%;
+            z-index: 2;
+            pointer-events: none;
+        }
+        .contenedor-cinta::before {
+            left: 0;
+            background: linear-gradient(90deg, var(--bg-dark) 0%, transparent 100%);
+        }
+        .contenedor-cinta::after {
+            right: 0;
+            background: linear-gradient(-90deg, var(--bg-dark) 0%, transparent 100%);
+        }
+
+        /* La fila interna que se va a mover */
+        .cinta-mover {
+            display: flex;
+            width: max-content; /* Se estira dinámicamente según las tarjetas */
+            gap: 2rem;
+            padding-left: 1rem;
+            animation: desplazamientoInfinito 25s linear infinite; /* Movimiento continuo */
+        }
+
+        /* Al pasar el mouse, la cinta se frena para que el cliente pueda leer cómodo */
+        .contenedor-cinta:hover .cinta-mover {
+            animation-play-state: paused;
+        }
+
+        /* REGLA DE ANIMACIÓN CSS (Mueve la mitad exacta del ancho total) */
+        @keyframes desplazamientoInfinito {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        /* TARJETAS DENTRO DE LA CINTA CONTINUA */
+        .item-tech {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            padding: 1.8rem 2.5rem;
+            border-radius: 10px;
+            min-width: 280px;
+            text-align: center;
+            transition: border-color 0.3s;
+        }
+
+        .item-tech:hover {
+            border-color: var(--blue-cyan);
+            box-shadow: 0 0 15px rgba(0, 229, 255, 0.1);
+        }
+
+        .item-tech h3 {
+            font-size: 1.2rem;
+            color: #fff;
+            margin-bottom: 0.4rem;
+            letter-spacing: 0.5px;
+        }
+
+        .item-tech p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        /* ======================================================= */
+        /* SECCIONES ESTÁNDAR (FOTOS REALES ABAJO) */
+        .bloque-info {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 6rem 2rem;
+            display: flex;
+            align-items: center;
+            gap: 4rem;
+        }
+
+        .info-contenido { flex: 1; }
+        .info-contenido h2 { font-size: 2.5rem; margin-bottom: 1.5rem; }
+        .info-contenido h2 span { color: var(--blue-cyan); }
+        .info-contenido p { color: var(--text-muted); font-size: 1.1rem; line-height: 1.6; }
+
+        .contenedor-imagen {
+            flex: 1;
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+            aspect-ratio: 16 / 10;
+            background-color: rgba(24, 29, 38, 0.4);
+            position: relative;
+        }
+
+        .placeholder-texto {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #4a5770;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        footer {
+            border-top: 1px solid var(--border-color);
+            padding: 4rem 2rem;
+            text-align: center;
+            background-color: #040609;
+            color: var(--text-muted);
+}
+
+/* EL CONTENEDOR GENERAL DEL MENÚ */
+.nav-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 1.2rem 2rem;
+    display: flex;
+    justify-content: space-between; /* Empuja el logo a la izquierda y el menú a la derecha */
+    align-items: center;            /* Centra verticalmente el logo con el menú */
+}
+
+.logo {
+    font-size: 1.8rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    color: #ffffff;
+}
+.logo span { 
+    color: var(--blue-cyan); 
+}
+
+/* LA MAGIA PARA QUE QUEDEN UNO AL LADO DEL OTRO */
+.menu {
+    display: flex;         /* Pone los elementos en fila horizontal automática */
+    gap: 2.5rem;           /* Separa un botón del otro de manera idéntica y prolija */
+}
+
+/* ESTILO DE CADA ENLACE DEL MENÚ */
+.menu a {
+    color: var(--text-muted);
+    text-decoration: none; /* Le quita la línea subrayada de los enlaces comunes */
+    font-weight: 600;
+    font-size: 1rem;
+    transition: color 0.3s ease;
+}
+
+/* Efecto visual al pasar el mouse por encima */
+.menu a:hover {
+    color: var(--blue-cyan);
+}
+.imagen-real{
+    width: 100%;
+    height: 150%;
+    object-fit: contain;
+    display: block;
+}
+/* ESTILOS DE LA SECCIÓN DE SERVICIOS */
+.seccion-servicios {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 5rem 2rem;
+}
+
+.titulo-servicios {
+    font-size: 1.8rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 3.5rem;
+    color: #ffffff;
+    border-left: 4px solid var(--blue-cyan);
+    padding-left: 1rem;
+}
+
+/* RESPONSIVE GRID MÓVIL/ESCRITORIO */
+.grid-servicios {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2.5rem; /* Separación simétrica de las tarjetas */
+}
+
+/* TARJETAS CON EFECTO GLOW CYBER */
+.tarjeta-servicio {
+    background-color: rgba(18, 22, 31, 0.6);
+    border: 1px solid var(--border-color);
+    padding: 2.5rem 2rem;
+    border-radius: 12px;
+    backdrop-filter: blur(8px);
+    transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* DISEÑO DE LOS ICONOS ELECTRIC CIAN */
+.icono-contenedor {
+    width: 50px;
+    height: 50px;
+    color: var(--blue-cyan);
+    margin-bottom: 1.5rem;
+}
+
+.icono-contenedor svg {
+    width: 100%;
+    height: 100%;
+}
+
+.tarjeta-servicio h3 {
+    font-size: 1.3rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    color: #ffffff;
+    letter-spacing: 0.5px;
+}
+
+.tarjeta-servicio p {
+    color: var(--text-muted);
+    font-size: 0.95rem;
+    line-height: 1.6;
+}
+
+/* ANIMACIÓN INTERACTIVA AL PASAR EL MOUSE (Efecto industrial) */
+.tarjeta-servicio:hover {
+    transform: translateY(-5px);
+    border-color: var(--blue-cyan);
+    box-shadow: 0 10px 30px rgba(0, 229, 255, 0.12);
+}
+/* SECCIÓN GENERAL DE TRABAJOS */
+.seccion-proyectos {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 5rem 2rem;
+}
+
+.titulo-proyectos {
+    font-size: 1.8rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 3.5rem;
+    color: #ffffff;
+    border-left: 4px solid var(--blue-cyan);
+    padding-left: 1rem;
+}
+
+
+
+/* CONTENEDOR FIJO PARA LA IMAGEN */
+.imagen-proyecto-contenedor {
+    width: 100%;
+    aspect-ratio: 4 / 3; /* Hace que todas las fotos tengan exactamente la misma proporción */
+    position: relative;
+    background-color: rgba(24, 29, 38, 0.5);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.imagen-proyecto-contenedor img {
+    width: 100%;
+    height: 120%;
+    object-fit: cover; /* Recorta la imagen de forma inteligente para que llene el cuadro sin deformarse */
+    position: relative;
+    z-index: 1;
+}
+
+/* Texto provisorio si la foto no carga o no existe todavía */
+.placeholder-foto {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #4a5770;
+    font-weight: 600;
+    font-size: 0.85rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+/* CAJA DE TEXTO INFERIOR (DESCRIPCIÓN CORTA) */
+.descripcion-proyecto {
+    padding: 1.5rem 1.2rem;
+    background-color: rgba(11, 15, 23, 0.4); /* Un fondo sutilmente más oscuro para resaltar el texto */
+    flex-grow: 1; /* Hace que todas las descripciones se alineen perfectamente abajo */
+    display: flex;
+    align-items: center;
+}
+
+.descripcion-proyecto p {
+    color: var(--text-muted);
+    font-size: 0.95rem;
+    line-height: 1.5;
+    margin: 0;
+}
+
+/* EFECTO INTERACTIVO AL PASAR EL MOUSE */
+.tarjeta-proyecto:hover {
+    transform: translateY(-5px);
+    border-color: var(--blue-cyan);
+    box-shadow: 0 12px 25px rgba(0, 229, 255, 0.1);
+}
+/* FORZAMOS QUE SE PONGAN UNO AL LADO DEL OTRO */
+.grid-proyectos {
+    display: flex !important;      /* Forzamos formato horizontal */
+    flex-wrap: wrap;               /* Permite que bajen de línea si no entran más */
+    justify-content: center;       /* Centra el grupo de tarjetas */
+    gap: 2rem;                     /* Espacio entre cada tarjeta */
+    width: 100%;
+}
+
+/* Ajuste fino para la tarjeta para que no ocupe todo el ancho */
+.tarjeta-proyecto {
+    flex: 0 0 340px;               /* Ancho fijo de 280px para cada una */
+    max-width: 340px;              /* Que no se estiren más de eso */
+    display: flex;
+    flex-direction: column;
+}
+/* BARRA DE MÉTRICAS INDUSTRIALES */
+.seccion-metricas {
+    width: 100%;
+    background-color: rgba(18, 22, 31, 0.4); /* Fondo sutil oscuro */
+    border-top: 1px solid var(--border-color);
+    border-bottom: 1px solid var(--border-color);
+    margin-top: 4rem; /* Separa la barra de las imágenes de arriba */
+    padding: 3rem 0;
+}
+
+.contenedor-metricas {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 2rem;
+    gap: 1.5rem;
+}
+
+/* CADA UNO DE LOS 4 BLOQUES */
+.bloque-metrica {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* Alineación a la izquierda estilo industrial */
+    border-left: 1px solid rgba(255, 255, 255, 0.1); /* Línea divisoria sutil */
+    padding-left: 1.5rem;
+}
+
+/* Quitamos la línea divisoria al primer elemento para que no quede colgada */
+.bloque-metrica:first-child {
+    border-left: none;
+    padding-left: 0;
+}
+
+/* EL NÚMERO EN CIAN ELÉCTRICO */
+.numero-metrica {
+    font-size: 2.8rem;
+    font-weight: 800;
+    color: var(--blue-cyan); /* Usa tu variable de color cian brillante */
+    line-height: 1;
+    margin-bottom: 0.5rem;
+    letter-spacing: -1px;
+}
+
+/* TEXTO SECUNDARIO EN MAYÚSCULAS */
+.texto-metrica {
+    color: var(--text-muted);
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* Optimización para que en celulares no se amontone todo */
+@media (max-width: 768px) {
+    .contenedor-metricas {
+        flex-direction: column;
+        gap: 2.5rem;
+    }
+    .bloque-metrica {
+        border-left: none;
+        padding-left: 0;
+        align-items: center; /* En celular queda mejor centrado */
+    }
+}
+/* SECCIÓN CLIENTES */
+.seccion-clientes {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 5rem 2rem;
+}
+
+.titulo-clientes {
+    font-size: 1.8rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 3.5rem;
+    color: #ffffff;
+    border-left: 4px solid var(--blue-cyan);
+    padding-left: 1rem;
+}
+
+/* GRILLA PARA LOGOS CON ALINEACIÓN HORIZONTAL */
+.grid-clientes {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around; /* Distribuye los logos con espacio idéntico */
+    align-items: center;
+    gap: 3rem;
+    width: 100%;
+}
+
+/* CONTENEDOR DE CADA LOGO */
+.logo-cliente {
+    flex: 0 1 200px; /* Ancho base para cada logo */
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(0, 0, 0, 0.10);
+    border-radius: 12px;
+    padding: 1.2rem;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+/* Efecto de suavizado para las imágenes reales de los logos */
+.logo-cliente img {
+    max-width: 120%;
+    max-height: 200%;
+    object-fit: contain;
+
+    mix-blend-mode: normal;
+    filter: none; 
+    transition: all 0.3s ease;
+    opacity: 0.8;
+}
+
+/* Texto provisorio si todavía no cargaste la imagen del logo */
+.placeholder-logo-texto {
+    color: #4a5770;
+    font-weight: 700;
+    font-size: 0.9rem;
+    letter-spacing: 1px;
+}
+
+/* EFECTO HOVER TECH */
+.logo-cliente:hover {
+    border-color: var(--blue-cyan);
+    background-color: rgba(18, 22, 31, 0.8);
+    box-shadow: 0 0 20px rgba(0, 229, 255, 0.2);
+}
+
+.logo-cliente:hover img {
+    filter: grayscale(0%);
+    opacity: 1; /* Al pasar el mouse recupera su color original */
+}
+
+.contenedor-video {
+    width: 50%;
+    max-width: 500px; /* Tamaño máximo en pantallas grandes */
+    margin: 40px auto; /* Centra el video y le da espacio arriba y abajo */
+    display: block;
+}
+
+.contenedor-video video {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 8px; /* Opcional: bordes redondeados para estética */
+}
+/* SECCIÓN CONTENEDORA DE VIDEO Y TEXTO */
+.seccion-video-destacado {
+    width: 100%;
+    max-width: 1200px;
+    margin: 6rem auto;
+    padding: 0 2rem;
+}
+
+.contenedor-video-destacado {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 4rem;
+}
+
+/* COLUMNA IZQUIERDA: CONTENEDOR DEL VIDEO */
+.columna-video {
+    flex: 1;
+    min-width: 300px;
+}
+
+.wrapper-video-industrial {
+    width: 100%;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid var(--border-color);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    background-color: #000;
+}
+
+.wrapper-video-industrial video {
+    width: 100%;
+    display: block;
+    object-fit: cover;
+}
+
+/* COLUMNA DERECHA: TEXTO INDUSTRIAL */
+.columna-texto-industrial {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+/* Etiqueta superior cian estilo Volta */
+.tag-tecnologico {
+    color: var(--blue-cyan);
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 0.8rem;
+}
+
+.columna-texto-industrial h2 {
+    font-size: 2.2rem;
+    color: #ffffff;
+    font-weight: 800;
+    line-height: 1.3;
+    margin-bottom: 1.5rem;
+}
+
+.parrafo-destacado {
+    font-size: 1.15rem;
+    color: rgba(255, 255, 255, 0.9);
+    line-height: 1.6;
+    margin-bottom: 1.2rem;
+}
+
+.parrafo-secundario {
+    font-size: 0.98rem;
+    color: var(--text-muted);
+    line-height: 1.6;
+    margin-bottom: 1.2rem;
+}
+
+/* BOTÓN DE ACCIÓN CON ENLACE ESTILO LEHMANN */
+.bloque-accion-whatsapp {
+    margin-top: 1.5rem;
+}
+
+.enlace-contacto-wsp {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--blue-cyan);
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 0.95rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    transition: color 0.3s ease;
+}
+
+.enlace-contacto-wsp:hover {
+    color: #00b8cc;
+}
+
+.icono-wsp {
+    width: 20px;
+    height: 20px;
+    transition: transform 0.3s ease;
+}
+
+.enlace-contacto-wsp:hover .icono-wsp {
+    transform: scale(1.15);
+}
+
+/* RESPONSIVE: En celulares se acomoda una columna arriba de la otra */
+@media (max-width: 900px) {
+    .contenedor-video-destacado {
+        flex-direction: column;
+        gap: 2.5rem;
+    }
+    .columna-video, .columna-texto-industrial {
+        width: 100%;
+    }
+    .columna-texto-industrial h2 {
+        font-size: 1.8rem;
+    }
+}
+
+/* CONTENEDOR GENERAL DEL FOOTER */
+.footer-industrial {
+    background-color: #05080f; /* Azul profundo ultra oscuro */
+    color: #ffffff;
+    padding: 5rem 2rem 2rem 2rem;
+    font-family: sans-serif;
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    
+    /* CUADRÍCULA TECNOLÓGICA DE FONDO (Igual a tu referencia) */
+    background-image: 
+        linear-gradient(rgba(0, 229, 255, 0.02) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 229, 255, 0.02) 1px, transparent 1px);
+    background-size: 40px 40px;
+    background-position: center top;
+}
+
+/* FRANJA DE CONTACTO SUPERIOR */
+.footer-contacto-banner {
+    max-width: 1200px;
+    margin: 0 auto 4rem auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 3rem;
+}
+
+.contacto-banner-izq h2 {
+    font-size: 3rem;
+    font-weight: 900;
+    line-height: 1.1;
+    letter-spacing: -1px;
+    margin-bottom: 1rem;
+    color: var(--blue-cyan, #00e5ff);
+}
+
+.contacto-banner-izq p {
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 1rem;
+    max-width: 500px;
+    margin-bottom: 2.5rem;
+}
+
+/* FILA DE DATOS RÁPIDOS */
+.datos-rapidos-contacto {
+    display: flex;
+    gap: 3rem;
+    flex-wrap: wrap;
+}
+
+.dato-item {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+}
+
+.icono-tech-footer {
+    font-size: 1.3rem;
+    color: var(--blue-cyan, #00e5ff);
+}
+
+.dato-item div strong {
+    display: block;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.4);
+    letter-spacing: 1px;
+}
+
+.dato-item div span {
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.8);
+}
+
+/* BOTÓN DE CONSULTA CON DESTELLO CIAN */
+.contacto-banner-der {
+    align-self: center;
+}
+
+.btn-enviar-consulta {
+    display: inline-block;
+    padding: 1.2rem 2.5rem;
+    background-color: var(--blue-cyan, #00e5ff);
+    color: #05080f;
+    font-weight: 700;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    text-decoration: none;
+    border-radius: 4px;
+    box-shadow: 0 0 25px rgba(0, 229, 255, 0.3);
+    transition: all 0.3s ease;
+}
+
+.btn-enviar-consulta:hover {
+    background-color: #ffffff;
+    color: #05080f;
+    box-shadow: 0 0 30px rgba(255, 255, 255, 0.4);
+    transform: translateY(-2px);
+}
+
+/* REGLA DIVISORA */
+.divisor-footer {
+    border: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1) 50%, transparent);
+    max-width: 1200px;
+    margin: 0 auto 4rem auto;
+}
+
+/* SECCIÓN INFERIOR DE COLUMNAS */
+.footer-columnas-navegacion {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 4rem;
+}
+
+.col-footer h3 {
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    color: #ffffff;
+    letter-spacing: 2px;
+    margin-bottom: 1.8rem;
+    font-weight: 700;
+}
+
+.col-footer ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.col-footer ul li {
+    margin-bottom: 0.8rem;
+}
+
+.col-footer ul li a {
+    color: rgba(255, 255, 255, 0.5);
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: color 0.2s ease, padding-left 0.2s ease;
+}
+
+.col-footer ul li a:hover {
+    color: var(--blue-cyan, #00e5ff);
+    padding-left: 4px;
+}
+
+/* Ajustes de marca Volta / VMT */
+.marca-footer .logo-footer-texto {
+    font-size: 1.5rem;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    margin-bottom: 1.2rem;
+}
+
+.marca-footer .v-grande {
+    color: var(--blue-cyan, #00e5ff);
+}
+
+.marca-footer p {
+    font-size: 0.9rem;
+    line-height: 1.6;
+    color: rgba(255, 255, 255, 0.5);
+}
+
+/* BLOQUE DE COPYRIGHT FINAL */
+.footer-copyright-vmt {
+    max-width: 1200px;
+    margin: 5rem auto 0 auto;
+    text-align: center;
+    border-top: 1px solid rgba(255, 255, 255, 0.03);
+    padding-top: 2rem;
+}
+
+.footer-copyright-vmt p {
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.3);
+    letter-spacing: 0.5px;
+}
+
+/* RESPONSIVE COMPLETO PARA PANTALLAS CHICAS */
+@media (max-width: 900px) {
+    .footer-contacto-banner {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 2rem;
+    }
+    .contacto-banner-izq h2 { font-size: 2.2rem; }
+    .datos-rapidos-contacto { gap: 1.5rem; flex-direction: column; }
+    .contacto-banner-der { align-self: stretch; }
+    .btn-enviar-consulta { width: 100%; text-align: center; }
+    
+    .footer-columnas-navegacion {
+        grid-template-columns: 1fr;
+        gap: 2.5rem;
+    }
+}
